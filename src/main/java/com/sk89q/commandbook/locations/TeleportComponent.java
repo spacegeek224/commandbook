@@ -115,7 +115,7 @@ public class TeleportComponent extends BukkitComponent implements Listener {
 
     public class Commands {
 
-        @Command(aliases = {"teleport", "tp"}, usage = "[target] <destination>",
+        @Command(aliases = {"tp", "teleport"}, usage = "[target] <destination>",
                 desc = "Teleport to a location",
                 flags = "s", min = 1, max = 4)
         @CommandPermissions({"commandbook.teleport"})
