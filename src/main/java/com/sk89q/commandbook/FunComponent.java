@@ -196,32 +196,6 @@ public class FunComponent extends BukkitComponent {
                             ((Villager) creature).setProfession(profession);
                         }
                         break outerloop; // only one profession
-                    case HORSE:
-                        Horse.Color color = null;
-                        Horse.Style style = null;
-                        Horse.Variant variant = null;
-                        try {
-                            color = Horse.Color.valueOf(specialType.toUpperCase());
-                        } catch (IllegalArgumentException e) {}
-                        if (color != null) {
-                            ((Horse) creature).setColor(color);
-                            continue;
-                        }
-                        try {
-                            style = Horse.Style.valueOf(specialType.toUpperCase());
-                        } catch (IllegalArgumentException e) {}
-                        if (style != null) {
-                            ((Horse) creature).setStyle(style);
-                            continue;
-                        }
-                        try {
-                            variant = Horse.Variant.valueOf(specialType.toUpperCase());
-                        } catch (IllegalArgumentException e) {}
-                        if (variant != null) {
-                            ((Horse) creature).setVariant(variant);
-                            continue;
-                        }
-                        throw new CommandException("Unknown color, style, or variant '" + specialType + "'.");
                     default:
                         break outerloop; // can't do anything with this animal, regardless of all the types given
                     }
