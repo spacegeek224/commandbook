@@ -302,12 +302,12 @@ public class SessionComponent extends BukkitComponent implements Runnable, Liste
                 File oldUserFile = new File(sessionsDir.getPath() + File.separator + player.getName() + ".yml");
                 if (oldUserFile.exists()) {
                     result = oldUserFile.renameTo(dest);
-                    if (!result) {
-                        CommandBook.logger().warning("Could not update a player's session file to use UUID: " + commander);
-                    }
                 }
             }
         } catch (IllegalArgumentException ignored) { }
+        if (!result) {
+            CommandBook.logger().warning("Could not update a player's session file to use UUID: " + commander);
+        }
         return result;
     }
 
