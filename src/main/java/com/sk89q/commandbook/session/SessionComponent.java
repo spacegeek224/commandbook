@@ -41,8 +41,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
@@ -254,7 +252,7 @@ public class SessionComponent extends BukkitComponent implements Runnable, Liste
                     dir.mkdirs();
                 }
 
-                if (!migrate(commander, userFile.toPath())) {
+                if (!migrate(commander, userFile)) {
                     if (!create) {
                         return null;
                     }
@@ -296,21 +294,21 @@ public class SessionComponent extends BukkitComponent implements Runnable, Liste
     }
 
     // - Migration Functions
-    private boolean migrate(String commander, Path dest) {
+    private boolean migrate(String commander, File dest) {
+        boolean result = false;
         try {
             OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(commander));
             if (player != null) {
                 File oldUserFile = new File(sessionsDir.getPath() + File.separator + player.getName() + ".yml");
                 if (oldUserFile.exists()) {
-                    Files.move(oldUserFile.toPath(), dest);
-                    return true;
+                    result = oldUserFile.renameTo(dest);
+                    if (!result) {
+                        CommandBook.logger().warning("Could not update a player's session file to use UUID: " + commander);
+                    }
                 }
             }
-        } catch (IllegalArgumentException ignored) {
-        } catch (IOException e) {
-            CommandBook.logger().log(Level.WARNING, "Could not update a player's session file to use UUID: " + commander, e);
-        }
-        return false;
+        } catch (IllegalArgumentException ignored) { }
+        return result;
     }
 
     // - Utility Functions
